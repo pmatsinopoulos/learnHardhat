@@ -2,4 +2,4 @@
 **/cache/
 **/artifacts/
 **/.envrc
-
+**/ignition/deployments/
