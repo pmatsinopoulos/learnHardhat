@@ -1,7 +1,13 @@
 {
   "folders": [
     {
+      "path": "hardhat-boilerplate"
+    },
+    {
       "path": "hardhat-tutorial"
+    },
+    {
+      "path": "openzeppelin"
     }
   ],
   "settings": {}
