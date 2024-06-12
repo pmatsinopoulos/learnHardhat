@@ -1,10 +1,6 @@
 // Load dependencies
-let expect = null;
 
-(async () => {
-  const chai = await import("chai");
-  expect = chai.expect;
-})();
+const { expect } = require("chai");
 
 // Start test block
 describe("Box", function () {
