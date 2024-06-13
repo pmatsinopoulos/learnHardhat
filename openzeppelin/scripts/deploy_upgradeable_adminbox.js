@@ -1,13 +1,14 @@
 const { ethers, upgrades } = require("hardhat");
+const { vars } = require("hardhat/config");
+
+const SEPOLIA_ACCOUNT = vars.get("SEPOLIA_ACCOUNT");
 
 async function main() {
   const AdminBox = await ethers.getContractFactory("AdminBox");
 
-  const adminBox = await upgrades.deployProxy(
-    AdminBox,
-    ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"],
-    { initializer: "initialize" }
-  );
+  const adminBox = await upgrades.deployProxy(AdminBox, [SEPOLIA_ACCOUNT], {
+    initializer: "initialize",
+  });
 
   await adminBox.deployed();
 

@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-etherscan");
 require("@openzeppelin/hardhat-upgrades");
 
 // Ensure your configuration variables are set before executing the script
@@ -11,6 +12,7 @@ const ALCHEMY_API_KEY = vars.get("ALCHEMY_API_KEY");
 // +direnv+ makes sure that the environment variable is set accordingly.
 //
 const SEPOLIA_TEST_NET_PRIVATE_KEY = vars.get("SEPOLIA_TEST_NET_PRIVATE_KEY");
+const ETHERSCAN_API_KEY = vars.get("ETHERSCAN_API_KEY");
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
@@ -20,5 +22,8 @@ module.exports = {
       url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
       accounts: [SEPOLIA_TEST_NET_PRIVATE_KEY],
     },
+  },
+  etherscan: {
+    apiKey: ETHERSCAN_API_KEY,
   },
 };
