@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 // this version is used as an Upgradeable Version to be deployed with the upgrade plugin
-contract Box {
+contract Box2 {
     uint256 private _value;
 
     // Emitted when the stored value changes
@@ -18,5 +18,10 @@ contract Box {
     // Reads the last stored value
     function retrieve() public view returns (uint256) {
         return _value;
+    }
+
+    function increment() public {
+        _value += 1;
+        emit ValueChanged(_value);
     }
 }
