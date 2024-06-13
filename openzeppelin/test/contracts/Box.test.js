@@ -10,36 +10,50 @@ describe("Box", function () {
   const value = 42n;
   let owner;
   let other;
+  let Box;
 
   before(async function () {
-    this.Box = await ethers.getContractFactory("Box");
+    Box = await ethers.getContractFactory("Box");
     [owner, other] = await ethers.getSigners();
   });
 
   beforeEach(async function () {
-    this.box = await this.Box.deploy();
+    this.box = await Box.deploy();
     await this.box.deployed();
   });
 
-  // Test case
-  it("retrieve returns a value previously stored", async function () {
-    // Store a value
-    await this.box.store(42);
+  describe("#retrieve", async function () {
+    context("when a value if previously stored", async function () {
+      beforeEach(async function () {
+        await this.box.store(value);
+      });
 
-    // Test if the returned value is the same one
-    // Note that we need to use strings to compare the 256 bit integers
-    expect((await this.box.retrieve()).toString()).to.equal("42");
+      it("returns the value previously stored", async function () {
+        // Note that we need to use strings to compare the 256 bit integers
+        const retrievedValue = await this.box.retrieve();
+
+        expect(retrievedValue.toString()).to.equal("42");
+      });
+    });
   });
 
-  it("store emits an event", async function () {
-    await expect(this.box.store(value))
-      .to.emit(this.box, "ValueChanged")
-      .withArgs(value);
-  });
+  describe("#store", async function () {
+    it("emits event ValueChanged with the value that has changed", async function () {
+      await expect(this.box.store(value))
+        .to.emit(this.box, "ValueChanged")
+        .withArgs(value);
+    });
 
-  it("non owner cannot store a value", async function () {
-    await expect(this.box.connect(other).store(value))
-      .to.be.revertedWithCustomError(this.box, "OwnableUnauthorizedAccount")
-      .withArgs(other.address);
+    context("when a non-owner is trying to store a value", async function () {
+      beforeEach(async function () {
+        this.box = await this.box.connect(other);
+      });
+
+      it("reverts with custom error", async function () {
+        await expect(this.box.store(value))
+          .to.be.revertedWithCustomError(this.box, "OwnableUnauthorizedAccount")
+          .withArgs(other.address);
+      });
+    });
   });
 });
