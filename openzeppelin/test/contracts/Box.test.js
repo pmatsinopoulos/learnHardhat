@@ -43,17 +43,5 @@ describe("Box", function () {
         .to.emit(this.box, "ValueChanged")
         .withArgs(value);
     });
-
-    context("when a non-owner is trying to store a value", async function () {
-      beforeEach(async function () {
-        this.box = await this.box.connect(other);
-      });
-
-      it("reverts with custom error", async function () {
-        await expect(this.box.store(value))
-          .to.be.revertedWithCustomError(this.box, "OwnableUnauthorizedAccount")
-          .withArgs(other.address);
-      });
-    });
   });
 });

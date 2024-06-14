@@ -3,4 +3,5 @@
 **/artifacts/
 **/.envrc
 **/ignition/deployments/
-**/*openzeppelin/
+**/*/sepolia.json
+
